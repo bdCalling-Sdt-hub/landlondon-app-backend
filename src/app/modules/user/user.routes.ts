@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get(
     '/profile',
-    auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+    auth(USER_ROLES.ADMIN, USER_ROLES.BRAND, USER_ROLES.INFLUENCER),
     UserController.getUserProfile
 );
   
@@ -22,10 +22,11 @@ router.post(
 router
     .route('/')
     .post(
+        validateRequest(UserValidation.createUserZodSchema),
         UserController.createUser
     )
     .patch(
-        auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+        auth(USER_ROLES.ADMIN, USER_ROLES.BRAND),
         fileUploadHandler(),
         UserController.updateProfile
     );

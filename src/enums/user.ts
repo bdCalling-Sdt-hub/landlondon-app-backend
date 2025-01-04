@@ -10,3 +10,10 @@ export enum GENDER {
     FEMALE = "FEMALE", 
     OTHER = "OTHERS" 
 }
+
+export enum INPUT_TYPE {
+    INPUT = 'INPUT',
+    RADIO = 'RADIO',
+    BOOLEAN = 'BOOLEAN',
+    NUMBER = 'NUMBER'
+}

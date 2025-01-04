@@ -4,3 +4,9 @@ export enum USER_ROLES {
     INFLUENCER = 'INFLUENCER',
     BRAND = 'BRAND',
 }
+
+export enum GENDER {
+    MALE = "MALE",
+    FEMALE = "FEMALE", 
+    OTHER = "OTHERS" 
+}

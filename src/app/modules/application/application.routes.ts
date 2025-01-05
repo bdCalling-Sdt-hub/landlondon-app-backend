@@ -16,6 +16,7 @@ router.route("/")
         async (req: Request, res: Response, next: NextFunction)=>{
             try {
                 const socialsAnalytics= getMultipleFilesPath(req.files, "image");
+                
                 req.body = {
                     influencer: req.user.id,
                     ...req.body,

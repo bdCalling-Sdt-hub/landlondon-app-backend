@@ -11,7 +11,13 @@ const questionSchema = new Schema<IQuestion, QuestionModel>(
             type: String,
             enum: Object.values(INPUT_TYPE),
             required: true
-        }
+        },
+        options: [
+            {
+                type: String,
+                required: false
+            }
+        ]
     },
     {
         timestamps: true

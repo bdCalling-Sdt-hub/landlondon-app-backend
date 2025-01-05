@@ -9,7 +9,8 @@ const questionCreateZodValidationSchema = z.object({
             question: z.string({ required_error: "Question is required" }),
             type: z.enum(Object.values(INPUT_TYPE) as [string, ...string[]], {
                 required_error: "Type is required",
-            })
+            }),
+            options: z.array(z.string()).optional(),
         })
     )
 });

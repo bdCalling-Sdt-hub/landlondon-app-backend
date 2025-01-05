@@ -6,6 +6,7 @@ export type IQuestion = {
     campaign: Types.ObjectId;
     question: string;
     type: INPUT_TYPE;
+    options?: string[];
 }
 
 export type QuestionModel = Model<IQuestion & Record<string, unknown>>;

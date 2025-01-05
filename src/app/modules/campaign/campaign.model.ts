@@ -28,7 +28,12 @@ const campaignSchema = new Schema<ICampaign, CampaignModel>(
             enum: Object.values(GENDER),
             required: true
         },
-        target_location: { type: String, required: true }
+        target_location: { type: String, required: true },
+        status: {
+            type: String,
+            enum: ["Ongoing", "Completed"],
+            default: "Ongoing"
+        }
     }
 );
 

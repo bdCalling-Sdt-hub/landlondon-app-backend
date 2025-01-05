@@ -19,6 +19,7 @@ export type ICampaign = {
     target_age: number;
     target_gender: GENDER;
     target_location: string;
+    status: "Ongoing" | "Completed";
 };
 
 export type CampaignModel = Model<ICampaign & Record<string, unknown>>;

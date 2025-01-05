@@ -21,10 +21,6 @@ const ApplicationSchema = new Schema<IApplication>({
         type: [QuestionsSchema],
         required: true
     },
-    postAnalytics: {
-        type: [String],
-        required: true
-    },
     socialsAnalytics: {
         type: [String],
         required: false

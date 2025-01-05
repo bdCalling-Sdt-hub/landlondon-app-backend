@@ -10,7 +10,6 @@ export type IApplication = {
     campaign: Types.ObjectId;
     questions: IQuestions[];
     socialsAnalytics: string[];
-    postAnalytics?: string[];
 }
 
 export type ApplicationModel = Model<IApplication & Record<string, unknown>>;

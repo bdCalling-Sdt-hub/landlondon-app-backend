@@ -21,6 +21,14 @@ const messageSchema = new Schema<IMessage, MessageModel>(
       type: String,
       required: false 
     },
+    docs: { 
+      type: String,
+      required: false 
+    },
+    read: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,

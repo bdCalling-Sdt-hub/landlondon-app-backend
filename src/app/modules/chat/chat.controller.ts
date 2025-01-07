@@ -6,7 +6,7 @@ import { ChatService } from "./chat.service";
 
 const createChat = catchAsync(async (req: Request, res: Response) => {
     const user = req.user;
-    const otherUser = req.params.id;
+    const otherUser = req.body.influencer;
 
     const participants = [user?.id, otherUser];
     const chat = await ChatService.createChatToDB(participants);

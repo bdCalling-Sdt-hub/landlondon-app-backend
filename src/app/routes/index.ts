@@ -5,6 +5,8 @@ import { CampaignRoutes } from '../modules/campaign/campaign.routes';
 import { QuestionRoutes } from '../modules/question/question.routes';
 import { ApplicationRoutes } from '../modules/application/application.routes';
 import { AnalyticRoutes } from '../modules/analytics/analytic.routes';
+import { ChatRoutes } from '../modules/chat/chat.routes';
+import { MessageRoutes } from '../modules/message/message.routes';
 const router = express.Router();
 
 const apiRoutes = [
@@ -14,6 +16,8 @@ const apiRoutes = [
     { path: "/question", route: QuestionRoutes },
     { path: "/application", route: ApplicationRoutes },
     { path: "/analytic", route: AnalyticRoutes },
+    { path: "/chat", route: ChatRoutes },
+    { path: "/message", route: MessageRoutes },
 ]
 
 apiRoutes.forEach(route => router.use(route.path, route.route));

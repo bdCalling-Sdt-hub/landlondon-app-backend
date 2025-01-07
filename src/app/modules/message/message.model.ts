@@ -28,6 +28,11 @@ const messageSchema = new Schema<IMessage, MessageModel>(
     read: {
       type: Boolean,
       default: false
+    },
+    type:{
+      type: String,
+      enum: ["text" , "image"  , "docs" , "both"],
+      default: "text"
     }
   },
   {

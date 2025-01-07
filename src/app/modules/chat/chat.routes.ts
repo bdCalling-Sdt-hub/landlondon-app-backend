@@ -13,6 +13,11 @@ router.route("/")
   .get(
     auth(USER_ROLES.BRAND),
     ChatController.getChat
+  );
+
+router.get("/influencer-chat",
+    auth(USER_ROLES.INFLUENCER),
+    ChatController.getChatForInfluencer
   )
 
 export const ChatRoutes = router;

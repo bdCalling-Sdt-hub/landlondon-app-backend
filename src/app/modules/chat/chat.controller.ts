@@ -32,7 +32,21 @@ const getChat = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const getChatForInfluencer = catchAsync(async (req: Request, res: Response) => {
+    const user = req.user;
+    const search = req.query.search as string;
+    const chatList = await ChatService.getChatForInfluencerFromDB(user, search);
+  
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: 'Chat Retrieve Successfully',
+        data: chatList
+    });
+});
+
 export const ChatController = { 
     createChat, 
-    getChat
+    getChat,
+    getChatForInfluencer
 };

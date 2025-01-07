@@ -18,7 +18,8 @@ const notificationSchema = new Schema<INotification, NotificationModel>(
         },
         screen: {
             type: String,
-            required: false
+            enum: ["CAMPAIGN" , "CHAT"],
+            required: true
         },
         read: {
             type: Boolean,

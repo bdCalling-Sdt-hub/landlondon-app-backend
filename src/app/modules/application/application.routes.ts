@@ -1,4 +1,4 @@
-import express, {Request, Response, NextFunction} from "express";
+import express, { Request, Response, NextFunction } from "express";
 import auth from "../../middlewares/auth";
 import { USER_ROLES } from "../../../enums/user";
 import validateRequest from "../../middlewares/validateRequest";
@@ -13,10 +13,10 @@ router.route("/")
     .post(
         auth(USER_ROLES.INFLUENCER),
         fileUploadHandler(),
-        async (req: Request, res: Response, next: NextFunction)=>{
+        async (req: Request, res: Response, next: NextFunction) => {
             try {
-                const socialsAnalytics= getMultipleFilesPath(req.files, "image");
-                
+                const socialsAnalytics = getMultipleFilesPath(req.files, "image");
+
                 req.body = {
                     influencer: req.user.id,
                     ...req.body,
@@ -33,6 +33,16 @@ router.route("/")
     .get(
         auth(USER_ROLES.BRAND),
         ApplicationController.getApplicationList
-    )
+    );
+
+router.get("/influencer",
+    auth(USER_ROLES.INFLUENCER),
+    ApplicationController.applicationListForInfluencer
+)
+
+router.patch("/:id",
+    auth(USER_ROLES.BRAND),
+    ApplicationController.responseApplication
+)
 
 export const ApplicationRoutes = router;

@@ -10,6 +10,7 @@ export type IApplication = {
     campaign: Types.ObjectId;
     questions: IQuestions[];
     socialsAnalytics: string[];
+    status: "Pending" | "Approved" | "Rejected" | "Completed";
 }
 
 export type ApplicationModel = Model<IApplication & Record<string, unknown>>;

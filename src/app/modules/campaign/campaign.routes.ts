@@ -36,4 +36,14 @@ router.route("/")
         CampaignController.getCampaign
     );
 
+router.get("/influencer",
+    auth(USER_ROLES.INFLUENCER),
+    CampaignController.getCampaignList
+)
+
+router.get("/:id",
+    auth(USER_ROLES.INFLUENCER),
+    CampaignController.campaignDetails
+)
+
 export const CampaignRoutes = router;

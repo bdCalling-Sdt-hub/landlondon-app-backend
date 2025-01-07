@@ -24,7 +24,29 @@ const getCampaign= catchAsync(async (req: Request, res: Response) => {
     })
 });
 
+const getCampaignList = catchAsync(async (req: Request, res: Response) => {
+    const newCampaign = await CampaignService.getCampaignsListFromDB();
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: 'Campaign List retrieved successfully',
+        data: newCampaign
+    })
+});
+
+const campaignDetails = catchAsync(async (req: Request, res: Response) => {
+    const result = await CampaignService.campaignDetailsFromDB(req.params.id);
+    sendResponse(res, {
+        statusCode: StatusCodes.CREATED,
+        success: true,
+        message: `Campaign Details Retrieved Successfully`,
+        data: result
+    })
+})
+
 export const CampaignController = {
     createCampaign,
-    getCampaign
+    getCampaign,
+    campaignDetails,
+    getCampaignList
 }

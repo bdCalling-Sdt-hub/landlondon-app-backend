@@ -25,6 +25,11 @@ const ApplicationSchema = new Schema<IApplication>({
         type: [String],
         required: false
     },
+    status: {
+        type: String,
+        enum: ["Pending" , "Approved" , "Rejected" , "Completed"],
+        default: "Pending"
+    }
 });
 
 export const Application = model<IApplication, ApplicationModel>('Application', ApplicationSchema);

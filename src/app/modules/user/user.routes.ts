@@ -1,10 +1,11 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { USER_ROLES } from '../../../enums/user';
 import { UserController } from './user.controller';
 import { UserValidation } from './user.validation';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import fileUploadHandler from '../../middlewares/fileUploaderHandler';
+import { getSingleFilePath } from '../../../shared/getFilePath';
 const router = express.Router();
 
 router.get(
@@ -26,7 +27,7 @@ router
         UserController.createUser
     )
     .patch(
-        auth(USER_ROLES.ADMIN, USER_ROLES.BRAND),
+        auth(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN, USER_ROLES.BRAND),
         fileUploadHandler(),
         UserController.updateProfile
     );

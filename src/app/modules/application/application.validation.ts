@@ -10,8 +10,7 @@ const createApplicationZodValidationSchema = z.object({
         influencer: z.string({ required_error: "Influencer is required" }).nonempty(),
         campaign: z.string({ required_error: "Campaign is required" }).nonempty(),
         questions: z.array(QuestionsValidationSchema),
-        socialsAnalytics: z.array(z.string({ required_error: "Social Image is Required" }).nonempty()),
-        postAnalytics: z.array(z.string({ required_error: "Post Image is Required" }).nonempty()).optional()
+        socialsAnalytics: z.array(z.string({ required_error: "Social Image is Required" }).nonempty())
     })
 });
 

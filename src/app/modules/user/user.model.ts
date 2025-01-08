@@ -24,6 +24,7 @@ const userSchema = new Schema<IUser, UserModal>(
         email: {
             type: String,
             required: false,
+            immutable: true,
             unique: true,
             lowercase: true,
         },
@@ -49,6 +50,14 @@ const userSchema = new Schema<IUser, UserModal>(
             type: Boolean,
             default: false,
         },
+        bio: {
+            type: String,
+            required: false
+        },
+        about: {
+            type: String,
+            required: false
+        },
         authentication: {
             type: {
                 isResetPassword: {
@@ -67,6 +76,22 @@ const userSchema = new Schema<IUser, UserModal>(
             select: 0
         }, 
         isSubscribed: {type: Boolean},
+        instagram: {
+            type: String,
+            required: false
+        },
+        facebook: {
+            type: String,
+            required: false
+        },
+        tiktok: {
+            type: String,
+            required: false
+        },
+        youtube: {
+            type: String,
+            required: false
+        },
     },
     {
         timestamps: true
@@ -113,7 +138,7 @@ userSchema.pre('save', async function (next) {
     }
 
     if(user.role === USER_ROLES.INFLUENCER){
-        user.isSubscribed = true;
+        user.isSubscribed = false;
     }
 
     //password hash

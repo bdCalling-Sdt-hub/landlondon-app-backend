@@ -18,7 +18,13 @@ export type IUser = {
     profile: string;
     verified: boolean;
     isSubscribed: boolean;
+    bio: string;
+    about: string;
     authentication?: IAuthenticationProps;
+    instagram: string;
+    facebook:string;
+    tiktok: string;
+    youtube: string;
 }
 
 export type UserModal = {

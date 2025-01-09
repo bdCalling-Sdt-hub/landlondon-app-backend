@@ -67,11 +67,11 @@ const responseApplicationToApplication = async (id: string, status: string): Pro
 const applicationListForInfluencerFromDB = async (user: JwtPayload, status: string): Promise<IApplication[]> => {
 
     const condition: Record<string, any> = {
-        user: user.id,
+        influencer: user.id,
         status : "Approved"
     }
 
-    if (status !== "Completed") {
+    if ( status && status !== "Completed") {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid Status")
     }
 
@@ -79,7 +79,9 @@ const applicationListForInfluencerFromDB = async (user: JwtPayload, status: stri
         condition[status] = status;
     }
 
-    const applications = await Application.find(condition).lean();
+    const applications = await Application.find(condition)
+        .populate("campaign")
+        .select("campaign")
 
     if (!applications.length) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "No Application Found");

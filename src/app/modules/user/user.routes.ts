@@ -5,7 +5,6 @@ import { UserValidation } from './user.validation';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import fileUploadHandler from '../../middlewares/fileUploaderHandler';
-import { getSingleFilePath } from '../../../shared/getFilePath';
 const router = express.Router();
 
 router.get(
@@ -27,7 +26,7 @@ router
         UserController.createUser
     )
     .patch(
-        auth(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN, USER_ROLES.BRAND),
+        auth(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN, USER_ROLES.BRAND, USER_ROLES.INFLUENCER),
         fileUploadHandler(),
         UserController.updateProfile
     );

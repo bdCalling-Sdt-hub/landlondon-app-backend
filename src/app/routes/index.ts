@@ -12,6 +12,7 @@ import { ContactRoutes } from '../modules/contact/contact.routes';
 import { BookmarkRoutes } from '../modules/bookmark/bookmark.routes';
 import { NoteRoutes } from '../modules/note/note.routes';
 import { TodoRoutes } from '../modules/todo/todo.routes';
+import { PaymentRoutes } from '../modules/payment/payment.routes';
 const router = express.Router();
 
 const apiRoutes = [
@@ -28,6 +29,7 @@ const apiRoutes = [
     { path: "/bookmark", route: BookmarkRoutes },
     { path: "/note", route: NoteRoutes },
     { path: "/todo", route: TodoRoutes },
+    { path: "/payment", route: PaymentRoutes },
 ]
 
 apiRoutes.forEach(route => router.use(route.path, route.route));

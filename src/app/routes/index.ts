@@ -11,6 +11,7 @@ import { ReviewRoutes } from '../modules/review/review.routes';
 import { ContactRoutes } from '../modules/contact/contact.routes';
 import { BookmarkRoutes } from '../modules/bookmark/bookmark.routes';
 import { NoteRoutes } from '../modules/note/note.routes';
+import { TodoRoutes } from '../modules/todo/todo.routes';
 const router = express.Router();
 
 const apiRoutes = [
@@ -26,6 +27,7 @@ const apiRoutes = [
     { path: "/contact", route: ContactRoutes },
     { path: "/bookmark", route: BookmarkRoutes },
     { path: "/note", route: NoteRoutes },
+    { path: "/todo", route: TodoRoutes },
 ]
 
 apiRoutes.forEach(route => router.use(route.path, route.route));

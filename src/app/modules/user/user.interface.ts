@@ -7,6 +7,14 @@ interface IAuthenticationProps {
     expireAt: Date;
 }
 
+interface IStripeAccountInfo {
+    status?: boolean;
+    accountId?: string;
+    externalAccountId?: string;
+    accountUrl?: string;
+    currency?: string;
+}
+
 export type IUser = {
     name: string;
     appId: string;
@@ -17,7 +25,6 @@ export type IUser = {
     location: string;
     profile: string;
     verified: boolean;
-    isSubscribed: boolean;
     bio: string;
     about: string;
     authentication?: IAuthenticationProps;
@@ -25,6 +32,7 @@ export type IUser = {
     facebook:string;
     tiktok: string;
     youtube: string;
+    accountInformation?: IStripeAccountInfo;
 }
 
 export type UserModal = {

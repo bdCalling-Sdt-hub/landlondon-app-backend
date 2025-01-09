@@ -75,7 +75,13 @@ const userSchema = new Schema<IUser, UserModal>(
             },
             select: 0
         }, 
-        isSubscribed: {type: Boolean},
+        accountInformation: {
+            status: { type: Boolean },
+            accountId: { type: String },
+            externalAccountId: { type: String },
+            accountUrl: { type: String },
+            currency: { type: String }
+        },
         instagram: {
             type: String,
             required: false
@@ -138,7 +144,9 @@ userSchema.pre('save', async function (next) {
     }
 
     if(user.role === USER_ROLES.INFLUENCER){
-        user.isSubscribed = false;
+        user.accountInformation = {
+            status: false
+        };
     }
 
     //password hash

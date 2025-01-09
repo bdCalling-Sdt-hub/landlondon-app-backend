@@ -19,7 +19,10 @@ export type ICampaign = {
     target_age: number;
     target_gender: GENDER;
     target_location: string;
+    sessionId?: string;
     status: "Ongoing" | "Completed";
+    paymentStatus: "Unpaid" | "Paid";
+
 };
 
 export type CampaignModel = Model<ICampaign & Record<string, unknown>>;

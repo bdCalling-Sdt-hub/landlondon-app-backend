@@ -23,6 +23,7 @@ const campaignSchema = new Schema<ICampaign, CampaignModel>(
         do: { type: [String], required: true },
         do_not: { type: [String], required: true },
         target_age: { type: Number, required: true },
+        sessionId: { type: String, required: false },
         target_gender: {
             type: String,
             enum: Object.values(GENDER),
@@ -33,7 +34,12 @@ const campaignSchema = new Schema<ICampaign, CampaignModel>(
             type: String,
             enum: ["Ongoing", "Completed"],
             default: "Ongoing"
-        }
+        },
+        paymentStatus: {
+            type: String,
+            enum: ["Unpaid" , "Paid"],
+            default: "Unpaid"
+        },
     }
 );
 

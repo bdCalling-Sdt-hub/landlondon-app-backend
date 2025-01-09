@@ -3,13 +3,18 @@ import ApiError from "../../../errors/ApiErrors";
 import { IBookmark } from "./bookmark.interface";
 import { Bookmark } from "./bookmark.model";
 import { JwtPayload } from "jsonwebtoken";
+import mongoose from "mongoose";
 
-const toggleBookmark = async (payload: {user: JwtPayload, service: string}): Promise<string> => {
+const toggleBookmark = async (payload: IBookmark): Promise<string> => {
 
-     // Check if the bookmark already exists
-     const existingBookmark = await Bookmark.findOne({
-        user: payload.user,
-        service: payload.service
+    if(!mongoose.Types.ObjectId.isValid(payload.influencer)){
+        throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid Influencer ID");
+    }
+
+    // Check if the bookmark already exists
+    const existingBookmark = await Bookmark.findOne({
+        brand: payload.brand,
+        influencer: payload.influencer
     });
 
     if (existingBookmark) {
@@ -28,33 +33,21 @@ const toggleBookmark = async (payload: {user: JwtPayload, service: string}): Pro
 };
 
 
-const getBookmark = async (user: JwtPayload): Promise<IBookmark[]>=>{
+const getBookmark = async (user: JwtPayload): Promise<IBookmark[]> => {
 
-
-
-    const result:any = await Bookmark.find({ user: user?.id })
+    const result: IBookmark[] = await Bookmark.find({ brand: user?.id })
         .populate({
-            path: 'artist',
+            path: 'influencer',
             model: 'User',
-            select: '_id name profile',
-            populate:{
-                path: 'lesson',
-                model: 'Lesson',
-                select: 'rating totalRating gallery lessonTitle'
-            }
-        }).select("artist")
-    
+            select: ' name email profile'
+        }).select("influencer");
 
-    return result?.map((bookmark:any) => {
-        const {lesson, ...otherData} = bookmark?.artist?.toObject();
 
-        // Remove the lesson ID field if it exists
-        if (lesson?._id) {
-            delete lesson?._id;
-        }
+    if (!result.length) {
+        throw new ApiError(StatusCodes.BAD_REQUEST, "No data found");
+    }
 
-        return {...otherData, ...lesson, status: true};
-    });
+    return result;
 }
 
-export const BookmarkService = {toggleBookmark, getBookmark}
+export const BookmarkService = { toggleBookmark, getBookmark }

@@ -3,14 +3,14 @@ import { IBookmark, BookmarkModel } from "./bookmark.interface"
 
 const bookmarkSchema = new Schema<IBookmark, BookmarkModel>(
     {
-        user: {
+        brand: {
             type: Schema.Types.ObjectId,
             ref: "User",
             required: true
         },
-        service: {
+        influencer: {
             type: Schema.Types.ObjectId,
-            ref: "Post",
+            ref: "User",
             required: true
         }
     }, 

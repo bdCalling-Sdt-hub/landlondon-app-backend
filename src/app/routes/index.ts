@@ -15,6 +15,7 @@ import { TodoRoutes } from '../modules/todo/todo.routes';
 import { PaymentRoutes } from '../modules/payment/payment.routes';
 import { WalletRoutes } from '../modules/wallet/wallet.routes';
 import { TransactionRoutes } from '../modules/transaction/transaction.routes';
+import { RechargeRoutes } from '../modules/recharge/recharge.routes';
 const router = express.Router();
 
 const apiRoutes = [
@@ -34,6 +35,7 @@ const apiRoutes = [
     { path: "/payment", route: PaymentRoutes },
     { path: "/wallet", route: WalletRoutes },
     { path: "/transaction", route: TransactionRoutes },
+    { path: "/recharge", route: RechargeRoutes },
 ]
 
 apiRoutes.forEach(route => router.use(route.path, route.route));

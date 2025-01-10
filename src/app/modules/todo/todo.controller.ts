@@ -30,8 +30,33 @@ const getTodos = catchAsync (async (req: Request, res: Response) =>{
     })
 });
 
+const makeFavorite = catchAsync (async (req: Request, res: Response) =>{
+    const result = await TodoService.makeFavoriteToDB(req.params.id);
+
+    sendResponse(res, {
+        statusCode: StatusCodes.CREATED,
+        success: true,
+        message: "Make favorite Successfully",
+        data: result
+    })
+});
+
+
+const deletedTodo = catchAsync (async (req: Request, res: Response) =>{
+    const result = await TodoService.deleteTodoFromDB(req.params.id);
+
+    sendResponse(res, {
+        statusCode: StatusCodes.CREATED,
+        success: true,
+        message: "Make favorite Successfully",
+        data: result
+    })
+});
+
 
 export const TodoController = {
     createTodo,
-    getTodos
+    getTodos,
+    makeFavorite,
+    deletedTodo
 }

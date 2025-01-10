@@ -15,6 +15,17 @@ router.route("/")
     .get(
         auth(USER_ROLES.BRAND),
         TodoController.getTodos
+    );
+
+
+router.route("/:id")
+    .delete(
+        auth(USER_ROLES.BRAND),
+        TodoController.deletedTodo
     )
+    .patch(
+        auth(USER_ROLES.BRAND),
+        TodoController.makeFavorite
+    );
 
 export const TodoRoutes = router;

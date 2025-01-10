@@ -15,6 +15,11 @@ const rechargeSchema = new Schema<IRecharge, RechargeModel>(
         sessionId: {
             type: String,
             required: false
+        },
+        status: {
+            type : String,
+            enum: ["Pending", "Complete"],
+            default: "Pending"
         }
     },
     { timestamps: true }

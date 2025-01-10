@@ -8,17 +8,11 @@ import mongoose from "mongoose";
 import { sendNotifications } from "../../../helpers/notificationsHelper";
 import { Campaign } from "../campaign/campaign.model";
 import { ICampaign } from "../campaign/campaign.interface";
+import { Recharge } from "../recharge/recharge.model";
+import { Wallet } from "../wallet/wallet.model";
 
 const createPaymentCheckoutToStripe = async (user: JwtPayload, payload: any): Promise<string | null> => {
-    const { price, service_name, id } = payload;
-
-    if (!service_name) {
-        throw new ApiError(StatusCodes.BAD_REQUEST, "Service name is required");
-    }
-    
-    if (!id) {
-        throw new ApiError(StatusCodes.BAD_REQUEST, "Reservation ID is required");
-    }
+    const { price } = payload;
 
     if (typeof price !== "number" || price <= 0) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid price amount");
@@ -33,7 +27,7 @@ const createPaymentCheckoutToStripe = async (user: JwtPayload, payload: any): Pr
                 price_data: {
                     currency: "usd",
                     product_data: {
-                        name: `${service_name} Service Reservation Payment`,
+                        name: `Top-Up for the Campaign`,
                     },
                     unit_amount: Math.trunc(price * 100),
                 },
@@ -48,8 +42,14 @@ const createPaymentCheckoutToStripe = async (user: JwtPayload, payload: any): Pr
     if (!session) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Failed to create Payment Checkout");
     }else{
-        await Campaign.findOneAndUpdate(
-            { _id: id },
+        await Recharge.create({
+            brand: user.id,
+            amount: Number(price),
+            sessionId: session.id 
+        });
+
+        await Wallet.findOneAndUpdate(
+            { brand: user.id },
             { sessionId: session.id },
             { new: true }
         );

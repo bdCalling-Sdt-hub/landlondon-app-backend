@@ -2,7 +2,8 @@ import { StatusCodes } from 'http-status-codes';
 import Stripe from 'stripe';
 import ApiError from '../errors/ApiErrors';
 import stripe from '../config/stripe';
-import { Campaign } from '../app/modules/campaign/campaign.model';
+import { Wallet } from '../app/modules/wallet/wallet.model';
+import { Recharge } from '../app/modules/recharge/recharge.model';
 
 export const handleCheckoutSession = async (data: Stripe.Checkout.Session) => {
 
@@ -11,10 +12,17 @@ export const handleCheckoutSession = async (data: Stripe.Checkout.Session) => {
 
     if (session.payment_status === "paid") {
 
-        // mark reservation as paid;
-        await Campaign.findOneAndUpdate(
+        // top-up on the wallet;
+        await Wallet.findOneAndUpdate(
             { sessionId: session.id },
-            { paymentStatus: 'Paid' },
+            { balance: {$ne: 50 } },
+            { new: true }
+        );
+
+        // top-up on the wallet;
+        await Recharge.findOneAndUpdate(
+            { sessionId: session.id },
+            { status: "Complete" },
             { new: true }
         );
     } else {

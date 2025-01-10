@@ -14,6 +14,7 @@ import { NoteRoutes } from '../modules/note/note.routes';
 import { TodoRoutes } from '../modules/todo/todo.routes';
 import { PaymentRoutes } from '../modules/payment/payment.routes';
 import { WalletRoutes } from '../modules/wallet/wallet.routes';
+import { TransactionRoutes } from '../modules/transaction/transaction.routes';
 const router = express.Router();
 
 const apiRoutes = [
@@ -32,6 +33,7 @@ const apiRoutes = [
     { path: "/todo", route: TodoRoutes },
     { path: "/payment", route: PaymentRoutes },
     { path: "/wallet", route: WalletRoutes },
+    { path: "/transaction", route: TransactionRoutes },
 ]
 
 apiRoutes.forEach(route => router.use(route.path, route.route));

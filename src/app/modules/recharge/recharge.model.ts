@@ -4,7 +4,7 @@ import { IRecharge, RechargeModel } from "./recharge.interface";
 const rechargeSchema = new Schema<IRecharge, RechargeModel>(
     {
         brand: {
-            types: Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: "User",
             required: true
         },

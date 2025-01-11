@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import ApiError from "../../../errors/ApiErrors";
 import { StatusCodes } from "http-status-codes";
 import config from "../../../config";
+import { Wallet } from "../wallet/wallet.model";
 
 const userSchema = new Schema<IUser, UserModal>(
     {
@@ -129,7 +130,7 @@ userSchema.statics.isMatchPassword = async (password: string, hashPassword: stri
 
 //check user
 userSchema.pre('save', async function (next) {
-    const user = this as IUser
+    const user = this as unknown as IUser  & { _id: string };
 
     //check user by email
     const isExist = await User.findOne({ email: user.email });
@@ -147,6 +148,10 @@ userSchema.pre('save', async function (next) {
         user.accountInformation = {
             status: false
         };
+    }
+
+    if(user.role === USER_ROLES.BRAND){
+        await Wallet.create({brand: user?._id})
     }
 
     //password hash

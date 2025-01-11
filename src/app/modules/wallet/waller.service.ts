@@ -5,7 +5,7 @@ import ApiError from "../../../errors/ApiErrors";
 import { StatusCodes } from "http-status-codes";
 
 const getWalletFromDB = async(user: JwtPayload): Promise<IWallet> =>{
-    const wallet = await Wallet.findOne({brand: user.id}).lean();
+    const wallet = await Wallet.findOne({brand: user.id}).select("balance").lean();
     if(!wallet){
         throw new ApiError(StatusCodes.BAD_REQUEST, "No Wallet Found");
     }

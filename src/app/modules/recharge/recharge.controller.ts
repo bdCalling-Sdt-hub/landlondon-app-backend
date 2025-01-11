@@ -4,6 +4,17 @@ import { RechargeService } from "./recharge.service";
 import sendResponse from "../../../shared/sendResponse";
 import { StatusCodes } from "http-status-codes";
 
+const makeRecharge = catchAsync(async(req: Request, res: Response)=>{
+
+    const result = await RechargeService.makeRechargeToDB(req.user, req.body);
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: "Recharge Make Successfully",
+        data: result
+    })
+});
+
 const getRechargesList = catchAsync(async (req: Request, res: Response) => {
     const result = await RechargeService.getRechargesFromDB(req.user);
     sendResponse(res, {
@@ -14,4 +25,7 @@ const getRechargesList = catchAsync(async (req: Request, res: Response) => {
     })
 });
 
-export const RechargeController = {  getRechargesList }
+export const RechargeController = {  
+    getRechargesList,
+    makeRecharge 
+}

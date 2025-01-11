@@ -7,6 +7,8 @@ import { Recharge } from '../app/modules/recharge/recharge.model';
 
 export const handleCheckoutSession = async (data: Stripe.Checkout.Session) => {
 
+    console.log(data)
+
     // Retrieve the subscription from Stripe
     const session = await stripe.checkout.sessions.retrieve(data?.id);
 

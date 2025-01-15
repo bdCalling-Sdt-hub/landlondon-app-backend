@@ -16,11 +16,14 @@ import { PaymentRoutes } from '../modules/payment/payment.routes';
 import { WalletRoutes } from '../modules/wallet/wallet.routes';
 import { TransactionRoutes } from '../modules/transaction/transaction.routes';
 import { RechargeRoutes } from '../modules/recharge/recharge.routes';
+import { RuleRoutes } from '../modules/rule/rule.route';
+import { ReportRoutes } from '../modules/report/report.routes';
 const router = express.Router();
 
 const apiRoutes = [
     { path: "/user", route: UserRoutes },
     { path: "/auth", route: AuthRoutes },
+    { path: "/rule", route: RuleRoutes },
     { path: "/campaign", route: CampaignRoutes },
     { path: "/question", route: QuestionRoutes },
     { path: "/application", route: ApplicationRoutes },
@@ -36,6 +39,7 @@ const apiRoutes = [
     { path: "/wallet", route: WalletRoutes },
     { path: "/transaction", route: TransactionRoutes },
     { path: "/recharge", route: RechargeRoutes },
+    { path: "/report", route: ReportRoutes },
 ]
 
 apiRoutes.forEach(route => router.use(route.path, route.route));

@@ -47,6 +47,10 @@ const userSchema = new Schema<IUser, UserModal>(
             type: String,
             default: 'https://i.ibb.co/z5YHLV9/profile.png',
         },
+        cover: {
+            type: String,
+            default: 'https://i.ibb.co/z5YHLV9/profile.png',
+        },
         verified: {
             type: Boolean,
             default: false,

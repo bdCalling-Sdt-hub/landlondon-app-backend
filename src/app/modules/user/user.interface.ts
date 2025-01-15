@@ -24,6 +24,7 @@ export type IUser = {
     password: string;
     location: string;
     profile: string;
+    cover: string;
     verified: boolean;
     bio: string;
     about: string;

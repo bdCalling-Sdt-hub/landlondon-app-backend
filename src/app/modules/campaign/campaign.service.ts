@@ -4,8 +4,15 @@ import { Campaign } from "./campaign.model";
 import mongoose from "mongoose";
 import ApiError from "../../../errors/ApiErrors";
 import { StatusCodes } from "http-status-codes";
+import { Business } from "../business/business.model";
 
 const createCampaignToDB = async (campaign: ICampaign): Promise<ICampaign> => {
+
+    const isExistBusiness = await Business.findOne({brand:campaign.brand});
+    if(!isExistBusiness){
+        throw new ApiError(StatusCodes.BAD_REQUEST, "You have to add business information first")
+    }
+
     const newCampaign = await Campaign.create(campaign);
     if (!newCampaign) {
         throw new Error('Campaign could not be created');

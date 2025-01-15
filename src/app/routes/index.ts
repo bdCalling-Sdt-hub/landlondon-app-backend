@@ -7,8 +7,6 @@ import { ApplicationRoutes } from '../modules/application/application.routes';
 import { AnalyticRoutes } from '../modules/analytics/analytic.routes';
 import { ChatRoutes } from '../modules/chat/chat.routes';
 import { MessageRoutes } from '../modules/message/message.routes';
-import { ReviewRoutes } from '../modules/review/review.routes';
-import { ContactRoutes } from '../modules/contact/contact.routes';
 import { FavoriteRoutes } from '../modules/favorite/bookmark.routes';
 import { NoteRoutes } from '../modules/note/note.routes';
 import { TodoRoutes } from '../modules/todo/todo.routes';
@@ -18,6 +16,9 @@ import { TransactionRoutes } from '../modules/transaction/transaction.routes';
 import { RechargeRoutes } from '../modules/recharge/recharge.routes';
 import { RuleRoutes } from '../modules/rule/rule.route';
 import { ReportRoutes } from '../modules/report/report.routes';
+import { BusinessRoutes } from '../modules/business/business.routes';
+import { ReviewRoutes } from '../modules/review/review.routes';
+import { ContactRoutes } from '../modules/contact/contact.routes';
 const router = express.Router();
 
 const apiRoutes = [
@@ -40,6 +41,7 @@ const apiRoutes = [
     { path: "/transaction", route: TransactionRoutes },
     { path: "/recharge", route: RechargeRoutes },
     { path: "/report", route: ReportRoutes },
+    { path: "/business", route: BusinessRoutes },
 ]
 
 apiRoutes.forEach(route => router.use(route.path, route.route));

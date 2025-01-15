@@ -5,13 +5,8 @@ import { TransactionController } from "./transaction.controller";
 const router = express.Router();
 
 router.get("/",
-    auth(USER_ROLES.BRAND),
-    TransactionController.getTransactions
-)
-
-router.get("/influencer",
     auth(USER_ROLES.INFLUENCER),
-    TransactionController.getTransactionsForInfluencer
+    TransactionController.getTransactions
 )
 
 export  const TransactionRoutes = router;

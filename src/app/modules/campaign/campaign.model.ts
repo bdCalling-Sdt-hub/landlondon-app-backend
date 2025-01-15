@@ -40,7 +40,8 @@ const campaignSchema = new Schema<ICampaign, CampaignModel>(
             enum: ["Unpaid" , "Paid"],
             default: "Unpaid"
         },
-    }
+    },
+    { timestamps: true }
 );
 
 export const Campaign = model<ICampaign, CampaignModel>('Campaign', campaignSchema);

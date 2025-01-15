@@ -8,6 +8,7 @@ import generateOTP from "../../../util/generateOTP";
 import { emailTemplate } from "../../../shared/emailTemplate";
 import { emailHelper } from "../../../helpers/emailHelper";
 import unlinkFile from "../../../shared/unlinkFile";
+import { Transaction } from "../transaction/transaction.model";
 
 const createAdminToDB = async (payload: any): Promise<IUser> => {
 
@@ -89,9 +90,37 @@ const updateProfileToDB = async (user: JwtPayload, payload: Partial<IUser>): Pro
     return updateDoc;
 };
 
+
+const influencerProfileFromDB = async (user: JwtPayload): Promise<Partial<IUser & { total: number } | null>> => {
+
+    const influencer = await User.findById(user.id)
+        .select('name email profile about contact youtube tiktok facebook instagram')
+        .lean();
+    if (!influencer) {
+        throw new ApiError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
+    }
+
+    const totalIncome = await Transaction.aggregate([
+        {
+            $match:
+                { influencer: user.id }
+        },
+        {
+            $group: { _id: null, total: { $sum: "$amount" } }
+        }
+    ]);
+
+    const total = totalIncome.length > 0 ? totalIncome[0].total : 0;
+
+
+
+    return { ...influencer, total };
+}
+
 export const UserService = {
     createUserToDB,
     getUserProfileFromDB,
     updateProfileToDB,
-    createAdminToDB
+    createAdminToDB,
+    influencerProfileFromDB
 };

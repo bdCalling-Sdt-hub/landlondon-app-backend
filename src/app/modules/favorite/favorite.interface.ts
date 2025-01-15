@@ -1,8 +1,8 @@
 import { Model, Types } from "mongoose";
 
-export type IBookmark= {
+export type IFavorite= {
     influencer: Types.ObjectId,
     brand: Types.ObjectId
 }
 
-export type BookmarkModel = Model<IBookmark>;
+export type FavoriteModel = Model<IFavorite>;

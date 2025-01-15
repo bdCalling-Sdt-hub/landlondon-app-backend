@@ -35,16 +35,16 @@ router.route("/")
     .get(
         auth(USER_ROLES.BRAND),
         ApplicationController.getApplicationList
-    );
+    )
+    .patch(
+        auth(USER_ROLES.BRAND),
+        validateRequest(ApplicationValidation.updateApplicationStatusValidationSchema),
+        ApplicationController.responseApplication
+    )
 
 router.get("/influencer",
     auth(USER_ROLES.INFLUENCER),
     ApplicationController.applicationListForInfluencer
-)
-
-router.patch("/:id",
-    auth(USER_ROLES.BRAND),
-    ApplicationController.responseApplication
 )
 
 export const ApplicationRoutes = router;

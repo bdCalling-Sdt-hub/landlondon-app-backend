@@ -1,5 +1,5 @@
 import express from "express";
-import { BookmarkController } from "./bookmark.controller";
+import { FavoriteController } from "./favorite.controller";
 import auth from "../../middlewares/auth";
 import { USER_ROLES } from "../../../enums/user";
 const router = express.Router();
@@ -7,12 +7,12 @@ const router = express.Router();
 router.route("/")
     .post(
         auth(USER_ROLES.BRAND),
-        BookmarkController.toggleBookmark
+        FavoriteController.toggleFavorite
     )
     .get(
         auth(USER_ROLES.BRAND),
-        BookmarkController.getBookmark
+        FavoriteController.getFavorite
     )
 
 
-export const BookmarkRoutes = router;
+export const FavoriteRoutes = router;

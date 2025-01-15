@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
-import { IBookmark, BookmarkModel } from "./bookmark.interface"
+import { IFavorite, FavoriteModel } from "./favorite.interface"
 
-const bookmarkSchema = new Schema<IBookmark, BookmarkModel>(
+const favoriteSchema = new Schema<IFavorite, FavoriteModel>(
     {
         brand: {
             type: Schema.Types.ObjectId,
@@ -13,10 +13,10 @@ const bookmarkSchema = new Schema<IBookmark, BookmarkModel>(
             ref: "User",
             required: true
         }
-    }, 
+    },
     {
         timestamps: true
     }
 );
 
-export const Bookmark = model<IBookmark, BookmarkModel>("Bookmark", bookmarkSchema);
+export const Favorite = model<IFavorite, FavoriteModel>("Favorite", favoriteSchema);

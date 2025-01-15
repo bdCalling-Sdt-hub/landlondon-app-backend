@@ -8,6 +8,7 @@ export type IQuestions = {
 export type IApplication = {
     influencer: Types.ObjectId;
     campaign: Types.ObjectId;
+    brand: Types.ObjectId;
     questions: IQuestions[];
     socialsAnalytics: string[];
     status: "Pending" | "Approved" | "Rejected" | "Completed";

@@ -8,10 +8,18 @@ import mongoose from "mongoose";
 import { sendNotifications } from "../../../helpers/notificationsHelper";
 
 const createApplicationToDB = async (payload: IApplication): Promise<IApplication> => {
-    const application = Application.create(payload);
+    const application:any = Application.create(payload);
     if (!application) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Failed to create Application")
     }
+
+    const data = {
+        text: "A Influencer Apply on your campaign.",
+        receiver: payload.brand,
+        referenceId: application?._id,
+        screen: "APPLICATION"
+    }
+    sendNotifications(data);
     return application;
 }
 
@@ -22,7 +30,7 @@ const getApplicationListFromDB = async (user: JwtPayload): Promise<IApplication[
     }
     const applications = await Application.find({ campaign: campaign?._id })
         .lean()
-        .populate("influencer", "name profile");
+        .populate("influencer", "name profile")
 
     if (!applications.length) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "No Application Found");
@@ -30,7 +38,9 @@ const getApplicationListFromDB = async (user: JwtPayload): Promise<IApplication[
     return applications;
 }
 
-const responseApplicationToApplication = async (id: string, status: string): Promise<IApplication> => {
+const responseApplicationToApplication = async (payload: {id: string, status: string}): Promise<IApplication> => {
+    const { id, status } = payload;
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid Application ID");
     }
@@ -80,12 +90,12 @@ const applicationListForInfluencerFromDB = async (user: JwtPayload, status: stri
     }
 
     const applications = await Application.find(condition)
-        .populate("campaign")
-        .select("campaign")
-
+        .populate("campaign", "hashtag name image objective")
+        .select("campaign");
     if (!applications.length) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "No Application Found");
-    }
+    };
+
     return applications;
 }
 

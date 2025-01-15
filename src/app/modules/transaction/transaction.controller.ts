@@ -15,18 +15,6 @@ const getTransactions = catchAsync(async (req: Request, res: Response)=>{
     })
 })
 
-const getTransactionsForInfluencer = catchAsync(async (req: Request, res: Response)=>{
-    const result = await TransactionService.getTransactionsForInfluencerFromDB(req.user);
-
-    sendResponse(res, {
-        statusCode: StatusCodes.OK,
-        success: true,
-        message: "Transactions Data retrieved",
-        data: result
-    })
-});
-
 export  const TransactionController = {
-    getTransactions,
-    getTransactionsForInfluencer
+    getTransactions
 }

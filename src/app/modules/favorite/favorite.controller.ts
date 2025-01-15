@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
-import { BookmarkService } from "./bookmark.service";
+import { FavoriteService } from "./favorite.service";
 
-const toggleBookmark = catchAsync(async(req: Request, res: Response)=>{
+const toggleFavorite = catchAsync(async(req: Request, res: Response)=>{
     const brand = req.user.id;
     const influencer = req.body.influencer;
     const payload:any = { brand, influencer }
-    const result = await BookmarkService.toggleBookmark(payload);
+    const result = await FavoriteService.toggleFavorite(payload);
     
     sendResponse(res, {
         statusCode: 200,
@@ -16,16 +16,16 @@ const toggleBookmark = catchAsync(async(req: Request, res: Response)=>{
     })
 });
 
-const getBookmark = catchAsync(async(req: Request, res: Response)=>{
+const getFavorite = catchAsync(async(req: Request, res: Response)=>{
     const user = req.user;
-    const result = await BookmarkService.getBookmark(user);
+    const result = await FavoriteService.getFavorite(user);
     sendResponse(res, {
         statusCode: 200,
         success: true,
-        message: "Bookmark Retrieved Successfully",
+        message: "Favorite Retrieved Successfully",
         data: result
     })
 });
 
 
-export const BookmarkController = {toggleBookmark, getBookmark}
+export const FavoriteController = {toggleFavorite, getFavorite}

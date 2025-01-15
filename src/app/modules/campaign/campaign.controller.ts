@@ -25,7 +25,7 @@ const getCampaign= catchAsync(async (req: Request, res: Response) => {
 });
 
 const getCampaignList = catchAsync(async (req: Request, res: Response) => {
-    const newCampaign = await CampaignService.getCampaignsListFromDB();
+    const newCampaign = await CampaignService.getCampaignsListFromDB(req.query);
     sendResponse(res, {
         statusCode: StatusCodes.OK,
         success: true,

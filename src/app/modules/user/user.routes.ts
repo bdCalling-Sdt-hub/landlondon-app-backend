@@ -13,6 +13,11 @@ router.get(
     UserController.getUserProfile
 );
   
+router.get('/influencer-profile',
+    auth(USER_ROLES.INFLUENCER),
+    UserController.influencerProfile
+);
+
 router.post(
     '/create-admin',
     validateRequest(UserValidation.createAdminZodSchema),

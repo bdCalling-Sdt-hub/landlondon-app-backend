@@ -65,9 +65,24 @@ const updateProfile = catchAsync( async (req: Request, res: Response, next: Next
     });
 });
 
+
+// retrieved user profile
+const influencerProfile = catchAsync(async (req: Request, res: Response) => {
+    const user = req.user;
+    const result = await UserService.influencerProfileFromDB(user);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: StatusCodes.OK,
+        message: 'Profile data retrieved successfully',
+        data: result
+    });
+});
+
 export const UserController = { 
     createUser, 
     createAdmin, 
     getUserProfile, 
-    updateProfile
+    updateProfile,
+    influencerProfile
 };

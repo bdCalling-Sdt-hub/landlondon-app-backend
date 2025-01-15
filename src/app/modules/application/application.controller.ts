@@ -25,11 +25,11 @@ const getApplicationList = catchAsync(async (req: Request, res: Response) => {
 })
 
 const responseApplication = catchAsync(async (req: Request, res: Response) => {
-    const result = await ApplicationService.responseApplicationToApplication(req.params.id, req.query.status as string);
+    const result = await ApplicationService.responseApplicationToApplication(req.body);
     sendResponse(res, {
         statusCode: StatusCodes.CREATED,
         success: true,
-        message: `Application ${req.query.status}  Successfully`,
+        message: `Application ${req.body.status}  Successfully`,
         data: result
     })
 })
@@ -37,7 +37,7 @@ const responseApplication = catchAsync(async (req: Request, res: Response) => {
 const applicationListForInfluencer = catchAsync(async (req: Request, res: Response) => {
     const result = await ApplicationService.applicationListForInfluencerFromDB(req.user, req.query.status as string);
     sendResponse(res, {
-        statusCode: StatusCodes.CREATED,
+        statusCode: StatusCodes.OK,
         success: true,
         message: `Application ${req.query.status}  Successfully`,
         data: result

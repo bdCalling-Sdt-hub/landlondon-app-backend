@@ -10,7 +10,7 @@ router.post(
   '/',
   auth(USER_ROLES.BRAND, USER_ROLES.INFLUENCER),
   fileUploadHandler(),
-  async (req: Request, res: Response, next: NextFunction)=>{
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       const image = getSingleFilePath(req.files, "image");
       const docs = getSingleFilePath(req.files, "doc");
@@ -20,7 +20,7 @@ router.post(
         image,
         docs
       }
-      req.body = {...payload}
+      req.body = { ...payload }
       next();
     } catch (error) {
       res.status(500).json({ message: "Need Array to insert image docs invalid format" });

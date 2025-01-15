@@ -9,7 +9,7 @@ import { ChatRoutes } from '../modules/chat/chat.routes';
 import { MessageRoutes } from '../modules/message/message.routes';
 import { ReviewRoutes } from '../modules/review/review.routes';
 import { ContactRoutes } from '../modules/contact/contact.routes';
-import { BookmarkRoutes } from '../modules/bookmark/bookmark.routes';
+import { FavoriteRoutes } from '../modules/favorite/bookmark.routes';
 import { NoteRoutes } from '../modules/note/note.routes';
 import { TodoRoutes } from '../modules/todo/todo.routes';
 import { PaymentRoutes } from '../modules/payment/payment.routes';
@@ -29,7 +29,7 @@ const apiRoutes = [
     { path: "/message", route: MessageRoutes },
     { path: "/review", route: ReviewRoutes },
     { path: "/contact", route: ContactRoutes },
-    { path: "/bookmark", route: BookmarkRoutes },
+    { path: "/favorite", route: FavoriteRoutes },
     { path: "/note", route: NoteRoutes },
     { path: "/todo", route: TodoRoutes },
     { path: "/payment", route: PaymentRoutes },

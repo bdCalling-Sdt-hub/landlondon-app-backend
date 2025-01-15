@@ -115,9 +115,9 @@ const transferAndPayoutToInfluencer = async (id: string) => {
 
         const data = {
             text: "Congratulations! Your payment has been transferred to your account.",
-            receiver: isExistReservation.barber,
+            receiver: isExistReservation.influencer,
             referenceId: id,
-            screen: "RESERVATION"
+            screen: "TRANSACTION"
         }
         sendNotifications(data);
 

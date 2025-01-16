@@ -2,7 +2,7 @@ import { IMessage } from './message.interface';
 import { Message } from './message.model';
 
 const sendMessageToDB = async (payload: any): Promise<IMessage> => {
-  // save to DB
+
   const response = await Message.create(payload);
 
   //@ts-ignore
@@ -15,6 +15,13 @@ const sendMessageToDB = async (payload: any): Promise<IMessage> => {
 };
 
 const getMessageFromDB = async (id: any): Promise<IMessage[]> => {
+
+  await Message.updateMany(
+    { chatId: id },
+    { read: true },
+    { new: true }
+  )
+
   const messages = await Message.find({ chatId: id })
     .sort({ createdAt: -1 })
   return messages;

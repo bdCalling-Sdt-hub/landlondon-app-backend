@@ -19,6 +19,9 @@ import { ReportRoutes } from '../modules/report/report.routes';
 import { BusinessRoutes } from '../modules/business/business.routes';
 import { ReviewRoutes } from '../modules/review/review.routes';
 import { ContactRoutes } from '../modules/contact/contact.routes';
+import { SupportRoutes } from '../modules/support/support.routes';
+import { FaqRoutes } from '../modules/faq/faq.route';
+import { NotificationRoutes } from '../modules/notification/notification.routes';
 const router = express.Router();
 
 const apiRoutes = [
@@ -42,6 +45,9 @@ const apiRoutes = [
     { path: "/recharge", route: RechargeRoutes },
     { path: "/report", route: ReportRoutes },
     { path: "/business", route: BusinessRoutes },
+    { path: "/support", route: SupportRoutes },
+    { path: "/faq", route: FaqRoutes },
+    { path: "/notification", route: NotificationRoutes },
 ]
 
 apiRoutes.forEach(route => router.use(route.path, route.route));

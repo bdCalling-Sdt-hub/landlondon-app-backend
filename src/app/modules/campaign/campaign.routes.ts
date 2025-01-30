@@ -34,7 +34,27 @@ router.route("/")
     .get(
         auth(USER_ROLES.BRAND),
         CampaignController.getCampaign
-    );
+    )
+    .patch(
+        auth(USER_ROLES.BRAND),
+        fileUploadHandler(),
+        async (req: Request, res: Response, next: NextFunction) => {
+            try {
+                const { budget, target_age, ...othersPayload } = req.body;
+                const image = getSingleFilePath(req.files, 'image');
+                req.body = {
+                    ...othersPayload,
+                    image,
+                    budget: Number(budget),
+                    target_age: Number(target_age)
+                };
+                next();
+            } catch (error) {
+                res.status(500).json({ message: "Failed to Upload image" });
+            }
+        },
+        CampaignController.updateCampaign
+    )
 
 router.get("/influencer",
     auth(USER_ROLES.INFLUENCER),

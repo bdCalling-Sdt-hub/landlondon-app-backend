@@ -8,6 +8,12 @@ import mongoose from "mongoose";
 import { sendNotifications } from "../../../helpers/notificationsHelper";
 
 const createApplicationToDB = async (payload: IApplication): Promise<IApplication> => {
+
+    const isApplied =  await Application.findOne({campaign: payload.campaign, influencer: payload.influencer});
+    if(isApplied){
+        throw new ApiError(StatusCodes.BAD_REQUEST, "You already Applied in this campaign");
+    }
+
     const application:any = Application.create(payload);
     if (!application) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Failed to create Application")
@@ -30,7 +36,7 @@ const getApplicationListFromDB = async (user: JwtPayload): Promise<IApplication[
     }
     const applications = await Application.find({ campaign: campaign?._id })
         .lean()
-        .populate("influencer", "name profile")
+        .populate("influencer", "name profile youtube tiktok facebook instagram about location contact")
 
     if (!applications.length) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "No Application Found");
@@ -91,8 +97,23 @@ const applicationListForInfluencerFromDB = async (user: JwtPayload, status: stri
 
     const applications = await Application.find(condition)
         .populate("campaign", "hashtag name image objective")
-        .select("campaign");
+        .select("campaign createdAt");
     if (!applications.length) {
+        throw new ApiError(StatusCodes.BAD_REQUEST, "No Application Found");
+    };
+
+    return applications;
+}
+
+const applicationDetailsFromDB = async (id: string): Promise<IApplication | null> => {
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid Application ID");
+    }
+
+    const applications = await Application.findById(id).populate("campaign influencer")
+
+    if (!applications) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "No Application Found");
     };
 
@@ -103,5 +124,6 @@ export const ApplicationService = {
     createApplicationToDB,
     getApplicationListFromDB,
     responseApplicationToApplication,
-    applicationListForInfluencerFromDB
+    applicationListForInfluencerFromDB,
+    applicationDetailsFromDB
 }

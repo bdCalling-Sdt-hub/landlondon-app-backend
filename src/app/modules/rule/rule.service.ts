@@ -55,10 +55,35 @@ const getTermsAndConditionFromDB = async () => {
     }
     return result
 }
+
+const createAboutToDB = async (payload: IRule) => {
+
+    const isExistAbout = await Rule.findOne({ type: 'about' })
+    if (isExistAbout) {
+        const result = await Rule.findOneAndUpdate({type: 'about'}, {content: payload?.content}, {new: true})
+        const message = "About Us Updated successfully"
+        return { message, result }
+    } else {
+        const result = await Rule.create({ ...payload, type: 'about' })
+        const message = "About Us created successfully"
+        return { message, result }
+    }
+}
+  
+const getAboutFromDB = async () => {
+
+    const result = await Rule.findOne({ type: 'about' })
+    if (!result) {
+        throw new ApiError(StatusCodes.BAD_REQUEST, "About doesn't exist!")
+    }
+    return result
+}
   
 export const RuleService = {
     createPrivacyPolicyToDB,
     getPrivacyPolicyFromDB,
     createTermsAndConditionToDB,
-    getTermsAndConditionFromDB
+    getTermsAndConditionFromDB,
+    createAboutToDB,
+    getAboutFromDB
 }  

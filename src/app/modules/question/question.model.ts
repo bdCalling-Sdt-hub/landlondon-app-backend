@@ -12,16 +12,13 @@ const questionSchema = new Schema<IQuestion, QuestionModel>(
             enum: Object.values(INPUT_TYPE),
             required: true
         },
-        options: [
-            {
-                type: String,
-                required: false
-            }
-        ]
+        options: { type: Schema.Types.Mixed }
     },
     {
         timestamps: true
     }
 );
+
+
 
 export const Question = model<IQuestion, QuestionModel>('Question', questionSchema);

@@ -14,7 +14,6 @@ router.post("/",
 
             if (Array.isArray(questions)) {
                 req.body = questions.map((question) => {
-                    console.log(question)
                     return {
                         ...question,
                         campaign: campaign,

@@ -18,9 +18,6 @@ const getNotesFromDB = async (user: JwtPayload): Promise<INote[]> => {
 
 
     const notes = await Note.find({brand: user.id}).select("date notes")
-    if (!notes.length) {
-        throw new ApiError(StatusCodes.BAD_REQUEST, "Failed to create Contact");
-    }
 
     return notes
 }

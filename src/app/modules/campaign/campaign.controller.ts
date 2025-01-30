@@ -25,12 +25,13 @@ const getCampaign= catchAsync(async (req: Request, res: Response) => {
 });
 
 const getCampaignList = catchAsync(async (req: Request, res: Response) => {
-    const newCampaign = await CampaignService.getCampaignsListFromDB(req.query);
+    const result = await CampaignService.getCampaignsListFromDB(req.query);
     sendResponse(res, {
         statusCode: StatusCodes.OK,
         success: true,
         message: 'Campaign List retrieved successfully',
-        data: newCampaign
+        pagination: result.pagination,
+        data: result.campaigns
     })
 });
 
@@ -44,9 +45,20 @@ const campaignDetails = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const updateCampaign = catchAsync(async (req: Request, res: Response) => {
+    const result = await CampaignService.updateCampaignInDB(req.user, req.body);
+    sendResponse(res, {
+        statusCode: StatusCodes.CREATED,
+        success: true,
+        message: `Campaign Updated Successfully`,
+        data: result
+    })
+})
+
 export const CampaignController = {
     createCampaign,
     getCampaign,
     campaignDetails,
-    getCampaignList
+    getCampaignList,
+    updateCampaign
 }

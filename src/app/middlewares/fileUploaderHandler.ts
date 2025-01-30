@@ -68,15 +68,10 @@ const fileUploadHandler = () => {
                 cb(new ApiError(StatusCodes.BAD_REQUEST, 'Only .jpeg, .png, .jpg file supported'))
             }
         } else if (file.fieldname === 'doc') {
-            if (
-                file.mimetype === 'application/pdf' || 
-                file.mimetype === 'application/msword' ||
-                file.mimetype === 'text/plain' ||
-                file.mimetype === 'application/vnd.ms-excel'
-            ) {
+            if (file.mimetype === 'application/pdf') {
                 cb(null, true);
             } else {
-                cb(new ApiError(StatusCodes.BAD_REQUEST, 'Only .pdf, .doc, .docx, .xls, .xlsx, and .txt files are supported'));
+                cb(new ApiError(StatusCodes.BAD_REQUEST, 'Only .pdf file supported'));
             }
         } else {
             cb(new ApiError(StatusCodes.BAD_REQUEST, 'This file is not supported'))
@@ -84,7 +79,10 @@ const fileUploadHandler = () => {
     };
 
     const upload = multer({ storage: storage, fileFilter: filterFilter })
-        .fields([{ name: 'image', maxCount: 12 }]);
+        .fields([
+            { name: 'image', maxCount: 12 },
+            { name: 'doc', maxCount: 12 }
+        ]);
     return upload;
 
 };

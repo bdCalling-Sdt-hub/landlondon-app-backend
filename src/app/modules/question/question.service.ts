@@ -5,6 +5,12 @@ import { Question } from "./question.model";
 import mongoose from "mongoose";
 
 const createQuestionToDB = async (payload: IQuestion[]): Promise<IQuestion[]> => {
+
+    const isExistQuestion = await Question.findOne({ campaign: payload[0].campaign });
+    if (isExistQuestion) {
+        throw new ApiError( StatusCodes.BAD_REQUEST, "Question already exists");
+    }
+
     const question = await Question.insertMany(payload);
     if (!question) {
         throw new ApiError( StatusCodes.BAD_REQUEST, "Question not created");
@@ -18,7 +24,7 @@ const getQuestionsFromDB = async (id: string): Promise<IQuestion[]> => {
         throw new ApiError( StatusCodes.BAD_REQUEST, "Invalid campaign id");
     }
 
-    const questions = await Question.find({ campaign: id }).select("question type");
+    const questions = await Question.find({ campaign: id }).select("question type options");
     if (!questions) {
         throw new ApiError( StatusCodes.BAD_REQUEST, "Question not found");
     }

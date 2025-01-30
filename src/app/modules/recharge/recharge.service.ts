@@ -30,7 +30,7 @@ const makeRechargeToDB = async (user: JwtPayload, payload: any): Promise<string 
             },
         ],
         customer_email: user?.email,
-        success_url: "http://192.168.10.102:6001/api/v1/success",
+        success_url: "http://10.0.70.92:3000/wallet",
         cancel_url: "http://192.168.10.102:6001/api/v1/errors"
     });
 

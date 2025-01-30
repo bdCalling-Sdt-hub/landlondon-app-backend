@@ -9,11 +9,11 @@ router.route("/")
         auth(USER_ROLES.BRAND),
         async (req: Request, res: Response, next: NextFunction) => {
             try {
-                const { price } = req.body;
-                req.body = { ...req.body, price: Number(price) };
+                const { amount } = req.body;
+                req.body = { ...req.body, price: Number(amount) };
                 next();
             } catch (error) {
-                res.status(500).json({ message: "Invalid Price" });
+                res.status(500).json({ message: "Invalid Amount" });
             }
         }, 
         RechargeController.makeRecharge

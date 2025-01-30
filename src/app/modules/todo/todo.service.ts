@@ -18,7 +18,7 @@ const createTodoToDB = async (payload: ITodo): Promise<ITodo> => {
 const getTodoFromDB = async (user: JwtPayload): Promise<ITodo[]> => {
 
 
-    const todos = await Todo.find({brand: user.id}).select("subject details important")
+    const todos = await Todo.find({ brand: user.id }).select("subject details important")
     if (!todos.length) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Failed to create Contact");
     }
@@ -27,33 +27,39 @@ const getTodoFromDB = async (user: JwtPayload): Promise<ITodo[]> => {
 }
 
 
-const makeFavoriteToDB = async (id: string): Promise<ITodo>=>{
-    if(!mongoose.Types.ObjectId.isValid(id)){
+const makeFavoriteToDB = async (id: string): Promise<string> => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid Todo ID");
     }
 
-    const updatedTodo = await Todo.findById(
-        {_id: id},
-        {important: true ? false : true},
-        { new: true}
+    const todo: any = await Todo.findById(id).lean();
+
+    const updatedTodo = await Todo.findByIdAndUpdate(
+        id,
+        { $set: { important: !todo.important } },
+        { new: true }
     );
 
-    if(!updatedTodo){
+    if (!updatedTodo) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Failed to updated Todo");
     }
 
-    return updatedTodo;
+    if(updatedTodo.important === true){
+        return "Marked As Important"
+    }else{
+        return "Marked As Not Important"
+    }
 }
 
-const deleteTodoFromDB = async (id: string): Promise<ITodo>=>{
+const deleteTodoFromDB = async (id: string): Promise<ITodo> => {
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
+    if (!mongoose.Types.ObjectId.isValid(id)) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid Todo ID");
     }
 
     const deletedTodo = await Todo.findByIdAndDelete(id);
 
-    if(!deletedTodo){
+    if (!deletedTodo) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "Failed to deleted Todo");
     }
 

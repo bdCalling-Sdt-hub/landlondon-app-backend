@@ -2,6 +2,7 @@ import { Model, Types } from "mongoose";
 import { INPUT_TYPE } from "../../../enums/user";
 
 export type IQuestion = {
+    _id?: string;
     brand: Types.ObjectId;
     campaign: Types.ObjectId;
     question: string;

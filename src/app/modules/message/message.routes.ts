@@ -13,13 +13,15 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const image = getSingleFilePath(req.files, "image");
-      const docs = getSingleFilePath(req.files, "doc");
+      const doc = getSingleFilePath(req.files, "doc");
+
       const payload = {
         sender: req.user.id,
         ...req.body,
         image,
-        docs
+        doc
       }
+
       req.body = { ...payload }
       next();
     } catch (error) {

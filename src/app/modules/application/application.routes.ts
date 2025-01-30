@@ -17,8 +17,6 @@ router.route("/")
             try {
                 const socialsAnalytics = getMultipleFilesPath(req.files, "image");
 
-                console.log(socialsAnalytics)
-
                 req.body = {
                     influencer: req.user.id,
                     ...req.body,
@@ -45,6 +43,12 @@ router.route("/")
 router.get("/influencer",
     auth(USER_ROLES.INFLUENCER),
     ApplicationController.applicationListForInfluencer
+)
+
+
+router.get("/:id",
+    auth(USER_ROLES.INFLUENCER, USER_ROLES.BRAND),
+    ApplicationController.applicationDetails
 )
 
 export const ApplicationRoutes = router;

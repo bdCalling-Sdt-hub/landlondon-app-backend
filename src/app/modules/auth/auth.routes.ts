@@ -38,7 +38,7 @@ router.post(
             next();
 
         } catch (error) {
-            return res.status(500).json({ message: "Failed to convert string to number" });
+            res.status(500).json({ message: "Failed to convert string to number" });
         }
     },
     validateRequest(AuthValidation.createVerifyEmailZodSchema),
@@ -53,7 +53,7 @@ router.post(
 
 router.post(
     '/change-password',
-    auth(USER_ROLES.ADMIN, USER_ROLES.USER),
+    auth(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN, USER_ROLES.INFLUENCER, USER_ROLES.BRAND),
     validateRequest(AuthValidation.createChangePasswordZodSchema),
     AuthController.changePassword
 );
@@ -70,7 +70,7 @@ router.post(
 
 router.delete(
     '/delete-account',
-    auth(USER_ROLES.ADMIN),
+    auth(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN, USER_ROLES.INFLUENCER, USER_ROLES.ADMIN),
     AuthController.deleteUser
 );
 

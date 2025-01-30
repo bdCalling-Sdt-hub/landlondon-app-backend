@@ -43,6 +43,8 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
 
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
     const token = req.headers.authorization;
+
+    console.log(token);
     const { ...resetData } = req.body;
     const result = await AuthService.resetPasswordToDB(token!, resetData);
 
@@ -104,7 +106,7 @@ const socialLogin = catchAsync(async (req: Request, res: Response) => {
 
 // delete user
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
-    const result = await AuthService.deleteUserFromDB(req.user);
+    const result = await AuthService.deleteUserFromDB(req.user, req.body.password);
 
     sendResponse(res, {
         success: true,

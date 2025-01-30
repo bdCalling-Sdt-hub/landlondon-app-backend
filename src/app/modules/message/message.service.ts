@@ -1,3 +1,4 @@
+import QueryBuilder from '../../../shared/apiFeature';
 import { IMessage } from './message.interface';
 import { Message } from './message.model';
 
@@ -14,7 +15,7 @@ const sendMessageToDB = async (payload: any): Promise<IMessage> => {
   return response;
 };
 
-const getMessageFromDB = async (id: any): Promise<IMessage[]> => {
+const getMessageFromDB = async (id: any, query: any): Promise<{ messages: IMessage[], pagination: any }> => {
 
   await Message.updateMany(
     { chatId: id },
@@ -22,9 +23,10 @@ const getMessageFromDB = async (id: any): Promise<IMessage[]> => {
     { new: true }
   )
 
-  const messages = await Message.find({ chatId: id })
-    .sort({ createdAt: -1 })
-  return messages;
+  const apiFeatures = new QueryBuilder(Message.find({ chatId: id }), query).paginate();
+  const messages = await apiFeatures.queryModel;
+  const pagination = await apiFeatures.getPaginationInfo();
+  return { messages, pagination };
 };
 
 export const MessageService = { sendMessageToDB, getMessageFromDB };

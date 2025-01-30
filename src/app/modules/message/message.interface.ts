@@ -5,9 +5,9 @@ export type IMessage = {
   sender: Types.ObjectId;
   text?: string;
   image?: string;
-  docs?:string;
+  doc?:string;
   read: boolean;
-  type: "text" | "image"  | "docs" | "both"
+  type: "text" | "image"  | "doc" | "both"
 };
 
 export type MessageModel = Model<IMessage, Record<string, unknown>>;

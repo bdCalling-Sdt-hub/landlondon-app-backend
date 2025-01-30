@@ -44,9 +44,20 @@ const applicationListForInfluencer = catchAsync(async (req: Request, res: Respon
     })
 })
 
+const applicationDetails = catchAsync(async (req: Request, res: Response) => {
+    const result = await ApplicationService.applicationDetailsFromDB(req.params.id);
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: `Application Details Successfully`,
+        data: result
+    })
+})
+
 export const ApplicationController = {
     createApplication,
     getApplicationList,
     responseApplication,
-    applicationListForInfluencer
+    applicationListForInfluencer,
+    applicationDetails
 }

@@ -21,7 +21,7 @@ const messageSchema = new Schema<IMessage, MessageModel>(
       type: String,
       required: false 
     },
-    docs: { 
+    doc: { 
       type: String,
       required: false 
     },
@@ -31,7 +31,7 @@ const messageSchema = new Schema<IMessage, MessageModel>(
     },
     type:{
       type: String,
-      enum: ["text" , "image"  , "docs" , "both"],
+      enum: ["text" , "image"  , "doc" , "both"],
       default: "text"
     }
   },

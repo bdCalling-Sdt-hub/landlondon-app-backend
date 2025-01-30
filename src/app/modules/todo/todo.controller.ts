@@ -36,8 +36,7 @@ const makeFavorite = catchAsync (async (req: Request, res: Response) =>{
     sendResponse(res, {
         statusCode: StatusCodes.CREATED,
         success: true,
-        message: "Make favorite Successfully",
-        data: result
+        message: result as string
     })
 });
 
@@ -48,7 +47,7 @@ const deletedTodo = catchAsync (async (req: Request, res: Response) =>{
     sendResponse(res, {
         statusCode: StatusCodes.CREATED,
         success: true,
-        message: "Make favorite Successfully",
+        message: "Todo Deleted Successfully",
         data: result
     })
 });

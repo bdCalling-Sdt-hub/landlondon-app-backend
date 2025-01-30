@@ -17,4 +17,9 @@ router
     .get(RuleController.getTermsAndCondition);
 
 
+router
+    .route('/about')
+    .post(auth(USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN), RuleController.createAbout)
+    .get(RuleController.getAbout);
+
 export const RuleRoutes = router;

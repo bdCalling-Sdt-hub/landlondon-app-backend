@@ -6,6 +6,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { Campaign } from "../campaign/campaign.model";
 import mongoose from "mongoose";
 import { sendNotifications } from "../../../helpers/notificationsHelper";
+import QueryBuilder from "../../../shared/apiFeature";
 
 const createApplicationToDB = async (payload: IApplication): Promise<IApplication> => {
 
@@ -37,6 +38,7 @@ const getApplicationListFromDB = async (user: JwtPayload): Promise<IApplication[
     const applications = await Application.find({ campaign: campaign?._id })
         .lean()
         .populate("influencer", "name profile youtube tiktok facebook instagram about location contact")
+        .populate("campaign", "budget");
 
     if (!applications.length) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "No Application Found");
@@ -120,10 +122,51 @@ const applicationDetailsFromDB = async (id: string): Promise<IApplication | null
     return applications;
 }
 
+
+const approvedApplicationListFromDB = async (query: Record<string, any>):
+
+    Promise<{ applications: IApplication[], pagination: { page: number, totalPage: number, limit: number, total: number } }> => {
+
+    const apiFeatures = new QueryBuilder(Application.find({status: "Approved"}), query).paginate();
+    const applications = await apiFeatures.queryModel.populate("influencer socialsAnalytics")
+
+    const pagination = await apiFeatures.getPaginationInfo();
+
+    return {
+        pagination: pagination,
+        applications
+    };
+}
+
+const reSubmitApplicationFromDB = async (id: string): Promise<IApplication | null> => {
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid Application ID");
+    }
+
+    const applications = await Application.findByIdAndDelete(id);
+
+    if (!applications) {
+        throw new ApiError(StatusCodes.BAD_REQUEST, "No Application Found");
+    };
+
+    const notificationData = {
+        text: "Your Application has been Re-Submitted by the brand",
+        receiver: applications.influencer,
+        referenceId: applications?.campaign,
+        screen: "CAMPAIGN"
+    }
+    sendNotifications(notificationData);
+
+    return applications;
+}
+
 export const ApplicationService = {
     createApplicationToDB,
     getApplicationListFromDB,
     responseApplicationToApplication,
     applicationListForInfluencerFromDB,
-    applicationDetailsFromDB
+    applicationDetailsFromDB,
+    approvedApplicationListFromDB,
+    reSubmitApplicationFromDB
 }

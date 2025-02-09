@@ -54,10 +54,32 @@ const applicationDetails = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const approvedApplicationList = catchAsync(async (req: Request, res: Response) => {
+    const result = await ApplicationService.approvedApplicationListFromDB(req.query);
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: `Application Details Successfully`,
+        data: result
+    })
+})
+
+const resubmitApplication = catchAsync(async (req: Request, res: Response) => {
+    const result = await ApplicationService.reSubmitApplicationFromDB(req.params.id);
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: `Application Re-Submitted Successfully`,
+        data: result
+    })
+})
+
 export const ApplicationController = {
     createApplication,
     getApplicationList,
     responseApplication,
     applicationListForInfluencer,
-    applicationDetails
+    applicationDetails,
+    approvedApplicationList,
+    resubmitApplication
 }

@@ -7,8 +7,14 @@ import { StatusCodes } from "http-status-codes";
 import { Business } from "../business/business.model";
 import QueryBuilder from "../../../shared/apiFeature";
 import unlinkFile from "../../../shared/unlinkFile";
+import { Wallet } from "../wallet/wallet.model";
 
 const createCampaignToDB = async (campaign: ICampaign): Promise<ICampaign> => {
+
+    const wallet = await Wallet.findOne({ brand: campaign.brand }).lean();
+    if (wallet && wallet.balance <= campaign.budget) {
+        throw new ApiError(StatusCodes.BAD_REQUEST, "You have not enough balance. Please top up your balance to create a campaign")
+    }
 
     const isExistBusiness = await Business.findOne({ brand: campaign.brand });
     if (!isExistBusiness) {
@@ -83,6 +89,7 @@ const updateCampaignInDB = async (user: JwtPayload, payload: ICampaign): Promise
     }
     return newCampaign;
 }
+
 
 export const CampaignService = {
     createCampaignToDB,

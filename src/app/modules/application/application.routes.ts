@@ -45,10 +45,19 @@ router.get("/influencer",
     ApplicationController.applicationListForInfluencer
 )
 
-
-router.get("/:id",
-    auth(USER_ROLES.INFLUENCER, USER_ROLES.BRAND),
-    ApplicationController.applicationDetails
+router.get("/approved",
+    auth(USER_ROLES.BRAND),
+    ApplicationController.approvedApplicationList
 )
+
+router.route("/:id")
+    .get(
+        auth(USER_ROLES.INFLUENCER, USER_ROLES.BRAND),
+        ApplicationController.applicationDetails
+    )
+    .delete(
+        auth(USER_ROLES.BRAND),
+        ApplicationController.resubmitApplication
+    )
 
 export const ApplicationRoutes = router;

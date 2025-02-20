@@ -7,6 +7,7 @@ import { Campaign } from "../campaign/campaign.model";
 import mongoose from "mongoose";
 import { sendNotifications } from "../../../helpers/notificationsHelper";
 import QueryBuilder from "../../../shared/apiFeature";
+import { Favorite } from "../favorite/favorite.model";
 
 const createApplicationToDB = async (payload: IApplication): Promise<IApplication> => {
 
@@ -40,10 +41,23 @@ const getApplicationListFromDB = async (user: JwtPayload): Promise<IApplication[
         .populate("influencer", "name profile youtube tiktok facebook instagram about location contact")
         .populate("campaign", "budget");
 
+    
+
     if (!applications.length) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "No Application Found");
     }
-    return applications;
+
+    const result = await Promise.all(
+        applications.map(async (application) => {
+            const isFavorite = await Favorite.findOne({ brand: user.id, influencer: application.influencer?._id})
+            return {
+                ...application,
+                isFavorite: !!isFavorite?._id
+            };
+        })
+    );
+
+    return result;
 }
 
 const responseApplicationToApplication = async (payload: {id: string, status: string}): Promise<IApplication> => {

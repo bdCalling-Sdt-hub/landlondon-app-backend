@@ -31,6 +31,10 @@ const ApplicationSchema = new Schema<IApplication>(
             type: [String],
             required: false
         },
+        budget: {
+            type: Number,
+            required: true
+        },
         status: {
             type: String,
             enum: ["Pending", "Approved", "Rejected", "Completed"],

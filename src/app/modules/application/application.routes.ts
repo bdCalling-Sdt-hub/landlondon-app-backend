@@ -17,9 +17,12 @@ router.route("/")
             try {
                 const socialsAnalytics = getMultipleFilesPath(req.files, "image");
 
+                const { budget, ...othersPayload } = req.body;
+
                 req.body = {
                     influencer: req.user.id,
-                    ...req.body,
+                    budget: Number(budget),
+                    ...othersPayload,
                     socialsAnalytics
                 }
                 next()

@@ -10,6 +10,7 @@ export type IApplication = {
     campaign: Types.ObjectId;
     brand: Types.ObjectId;
     questions: IQuestions[];
+    budget: number;
     socialsAnalytics: string[];
     status: "Pending" | "Approved" | "Rejected" | "Completed";
 }

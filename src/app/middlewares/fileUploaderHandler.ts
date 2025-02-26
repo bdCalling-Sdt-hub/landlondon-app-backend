@@ -32,6 +32,9 @@ const fileUploadHandler = () => {
                 case 'doc':
                     uploadDir = path.join(baseUploadDir, 'docs');
                     break;
+                case 'cover':
+                    uploadDir = path.join(baseUploadDir, 'covers');
+                    break;
                 default:
                     throw new ApiError(StatusCodes.BAD_REQUEST, 'File is not supported');
             }
@@ -67,7 +70,18 @@ const fileUploadHandler = () => {
             } else {
                 cb(new ApiError(StatusCodes.BAD_REQUEST, 'Only .jpeg, .png, .jpg file supported'))
             }
-        } else if (file.fieldname === 'doc') {
+        } else if (file.fieldname === 'cover') {
+            if (
+                file.mimetype === 'image/jpeg' ||
+                file.mimetype === 'image/png' ||
+                file.mimetype === 'image/jpg'
+            ) {
+                cb(null, true);
+            } else {
+                cb(new ApiError(StatusCodes.BAD_REQUEST, 'Only .jpeg, .png, .jpg file supported'))
+            }
+        }
+        else if (file.fieldname === 'doc') {
             if (file.mimetype === 'application/pdf') {
                 cb(null, true);
             } else {
@@ -81,7 +95,8 @@ const fileUploadHandler = () => {
     const upload = multer({ storage: storage, fileFilter: filterFilter })
         .fields([
             { name: 'image', maxCount: 12 },
-            { name: 'doc', maxCount: 12 }
+            { name: 'doc', maxCount: 12 },
+            { name: 'cover', maxCount: 1 },
         ]);
     return upload;
 

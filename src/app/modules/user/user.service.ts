@@ -94,7 +94,7 @@ const updateProfileToDB = async (user: JwtPayload, payload: Partial<IUser>): Pro
 const influencerProfileFromDB = async (user: JwtPayload): Promise<Partial<IUser & { total: number } | null>> => {
 
     const influencer = await User.findById(user.id)
-        .select('name email profile about contact location youtube tiktok facebook instagram')
+        .select('name email profile about cover contact location youtube tiktok facebook instagram')
         .lean();
     if (!influencer) {
         throw new ApiError(StatusCodes.BAD_REQUEST, "User doesn't exist!");
